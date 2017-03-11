@@ -53,7 +53,7 @@ TESTS_CL = \
 TESTS = $(TESTS_2D) $(TESTS_3D) $(TESTS_CL)
 UTILS = bmp.o
 
-CFLAGS = -Iincludes -Iutil
+CFLAGS = -Iincludes -Iutil -I/usr/include/lua5.2
 
 # Build Mode:
 #  bionic -  build for gnu/linux style filesystem, linking
@@ -134,7 +134,7 @@ envytools/util/libenvyutil.a:
 
 RNN = envytools/rnn/librnn.a envytools/util/libenvyutil.a
 cffdump: cffdump.c disasm-a2xx.c disasm-a3xx.c script.c io.c rnnutil.c $(RNN)
-	gcc -g $(CFLAGS) -Wall -Wno-packed-bitfield-compat -I. -Ienvytools/include $^ -lxml2 -llua -larchive -o $@
+	gcc -g $(CFLAGS) -Wall -Wno-packed-bitfield-compat -I. -Ienvytools/include $^ -lxml2 -llua5.2 -larchive -o $@
 
 pgmdump: pgmdump.c disasm-a2xx.c disasm-a3xx.c io.c
 	gcc -g $(CFLAGS) -Wno-packed-bitfield-compat -I. $^ -larchive -o $@
