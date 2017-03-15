@@ -1507,7 +1507,7 @@ static uint32_t draw_indx_common(uint32_t *dwords, int level)
 {
 	uint32_t prim_type     = dwords[1] & 0x1f;
 	uint32_t source_select = (dwords[1] >> 6) & 0x3;
-	uint32_t num_indices   = dwords[2];
+	uint32_t num_indices   = dwords[1] >> 16;
 	const char *primtype;
 
 	primtype = rnn_enumname(rnn, "pc_di_primtype", prim_type);

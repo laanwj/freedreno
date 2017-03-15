@@ -82,6 +82,7 @@ class GpuBuffer:
         def __len__(self):
 		return len(self.contents) * 4
 
+# TODO detect premature ending of cmdbuf
 class DmesgParser:
 	PATTERN_MAIN_HDR = re.compile(r"@MF@ dumping IB gpu=(.*) host=.* ib=(.*) ic=")
 	PATTERN_MAIN_DATA = re.compile(r"] @MF@ ib=.* ic=.* >(.*):(.*)")
