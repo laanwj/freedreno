@@ -49,6 +49,9 @@ struct pgm_header {
 	uint32_t num_samplers;
 	uint32_t num_varyings;
 	uint32_t num_uniformblocks;
+	uint32_t unknown[14];
+	uint32_t num_vs;
+	uint32_t num_fs;
 };
 
 struct vs_header {
@@ -561,7 +564,7 @@ static void dump_shaders_a2xx(struct state *state)
 	uint8_t *ptr;
 
 	/* dump vertex shaders: */
-	for (i = 0; i < 3; i++) {
+	for (i = 0; i < state->hdr->num_vs; i++) {
 		struct vs_header *vs_hdr = next_sect(state, &sect_size);
 		struct constant *constants[32];
 		int j, level = 0;
@@ -612,7 +615,7 @@ static void dump_shaders_a2xx(struct state *state)
 	}
 
 	/* dump fragment shaders: */
-	for (i = 0; i < 1; i++) {
+	for (i = 0; i < state->hdr->num_fs; i++) {
 		struct fs_header *fs_hdr = next_sect(state, &sect_size);
 		struct constant *constants[32];
 		int j, level = 0;
@@ -659,7 +662,7 @@ static void dump_shaders_a3xx(struct state *state)
 	int i, j;
 
 	/* dump vertex shaders: */
-	for (i = 0; i < 2; i++) {
+	for (i = 0; i < state->hdr->num_vs; i++) {
 		int instrs_size, hdr_size, sect_size, nconsts = 0, level = 0, compact = 0;
 		uint8_t *vs_hdr;
 		struct constant *constants[32];
@@ -738,7 +741,7 @@ printf("hdr_size=%d\n", hdr_size);
 	}
 
 	/* dump fragment shaders: */
-	for (i = 0; i < 1; i++) {
+	for (i = 0; i < state->hdr->num_fs; i++) {
 		int instrs_size, hdr_size, sect_size, nconsts = 0, level = 0, compact = 0;
 		uint8_t *fs_hdr;
 		struct constant *constants[32];
@@ -832,6 +835,8 @@ void dump_program(struct state *state)
 	printf("\tsamplers:       %d\n", state->hdr->num_samplers);
 	printf("\tvaryings:       %d\n", state->hdr->num_varyings);
 	printf("\tuniform blocks: %d\n", state->hdr->num_uniformblocks);
+	printf("\tvertex shaders: %d\n", state->hdr->num_vs);
+	printf("\tfrag shaders:   %d\n", state->hdr->num_fs);
 	if (full_dump)
 		dump_hex((void *)state->hdr, sect_size);
 	printf("\n");
